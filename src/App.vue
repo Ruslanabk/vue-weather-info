@@ -1,25 +1,28 @@
 <template>
   <div id="app">
     <InformerContainer>
-      <InformerTemperature temp-real="10" temp-feel="7"></InformerTemperature>
+      <InformerTemperature
+        v-bind:temp-real="weather.temp"
+        v-bind:temp-feel="weather.feel"
+      ></InformerTemperature>
       <FlexBreak></FlexBreak>
-      <InformerHumidity>12</InformerHumidity>
+      <InformerHumidity>{{ weather.humidity }}</InformerHumidity>
       <VerticalDivider></VerticalDivider>
-      <InformerWind>13</InformerWind>
+      <InformerWind>{{ weather.wind }}</InformerWind>
     </InformerContainer>
   </div>
 </template>
 
 <script>
-import InformerContainer from './components/InformerContainer.vue'
-import InformerTemperature from './components/InformerTemperature.vue'
-import InformerHumidity from './components/InformerHumidity.vue'
-import InformerWind from './components/InformerWind.vue'
-import VerticalDivider from './components/VerticalDivider.vue'
-import FlexBreak from './components/FlexBreak.vue'
+import InformerContainer from "./components/InformerContainer.vue";
+import InformerTemperature from "./components/InformerTemperature.vue";
+import InformerHumidity from "./components/InformerHumidity.vue";
+import InformerWind from "./components/InformerWind.vue";
+import VerticalDivider from "./components/VerticalDivider.vue";
+import FlexBreak from "./components/FlexBreak.vue";
 
 export default {
-  name: 'app',
+  name: "app",
   components: {
     InformerContainer,
     InformerTemperature,
@@ -28,6 +31,22 @@ export default {
     VerticalDivider,
     FlexBreak
   },
-  
-}
+  data() {
+    return {
+      weather: {}
+    };
+  },
+  methods: {
+    updWeather() {
+      this.axios
+        .get("http://188.225.47.187/api/weather/json.php")
+        .then(response => {
+          this.weather = response.data;
+        });
+    }
+  },
+  mounted() {
+    this.updWeather();
+  }
+};
 </script>
