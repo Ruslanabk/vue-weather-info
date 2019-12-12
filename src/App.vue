@@ -33,7 +33,8 @@ export default {
   },
   data() {
     return {
-      weather: {}
+      weather: {},
+      timerWeatherUpd: ""
     };
   },
   methods: {
@@ -47,6 +48,7 @@ export default {
   },
   mounted() {
     this.updWeather();
+    this.timerWeatherUpd = setInterval(this.updWeather, 1000);
   }
 };
 </script>
